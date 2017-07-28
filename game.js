@@ -7,13 +7,13 @@ var pontosDisplay = window.document.getElementById('pontos');
 var pontos = 0;
 
 var assetsObj = {
-    'audio': {
+    audio: {
         'explosion': ['explosion.ogg'],
         'luck': ['luck.mp3'],
         'bg': ['bg.mp3']
     },
-//    "images": ["badguy.bmp", "goodguy.png"],
-    'sprites': {
+    images: ['space.jpg'],
+    sprites: {
         'asteroide.png': {
             'tile': 32,
             'tileh': 32,
