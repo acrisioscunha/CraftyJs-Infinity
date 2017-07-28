@@ -6,7 +6,8 @@ var pontos = 0;
 
 var assetsObj = {
     'audio': {
-        'explosion': ['explosion.ogg']
+        'explosion': ['explosion.ogg'],
+        'luck': ['luck.mp3']
     },
 //    "images": ["badguy.bmp", "goodguy.png"],
     'sprites': {
@@ -84,30 +85,75 @@ Crafty.load(assetsObj, // preload assets
                     });
             }
         });
-        
+
         Crafty.c('BulletPlayer', {
-            init: function() {
+            init: function () {
                 this.requires('2D, Canvas, Color, Delay, Collision, Bullet')
-                .attr({x: player.x + 60, y: player.y + 16, w: 10, h: 3})
-                .color('#ff0000')
-                .onHit('Asteroide', function () {
+                    .attr({x: player.x + 60, y: player.y + 16, w: 10, h: 3})
+                    .color('#ff0000')
+                    .onHit('Asteroide', function () {
 
-                    setTimeout(function (obg) {
-                        obg.destroy();
-                    }, 50, this);
+                        setTimeout(function (obg) {
+                            obg.destroy();
+                        }, 50, this);
 
-                })
-                .delay(function () {
+                    })
+                    .delay(function () {
 
-                    this.x += 3;
+                        this.x += 3;
 
-                    if (this.x > 510) {
+                        if (this.x > 510) {
 
-                        this.destroy();
+                            this.destroy();
 
-                    }
+                        }
 
-                }, 10, -1);
+                    }, 10, -1);
+            }
+        });
+
+        Crafty.c('Asteroid', {
+            init: function () {
+
+                var sprite = getRandomInt(0, 2);
+                var speed = getRandomInt(5, 20);                
+                var y = getRandomInt(0, 450);
+
+                this.requires('2D, Canvas, Delay, Collision, SpriteAnimation, Asteroide')
+                    .attr({x: 501, y: y, w: 50, h: 50, life: 4})
+                    .reel('Turning', 500, 0, sprite, 5) // setup animation
+                    .animate('Turning', -1) // start animation
+                    .onHit('Bullet', function () {
+
+                        this.life -= 1;
+
+                        if (this.life <= 0) {
+
+                            Crafty.e('Explode').attr({x: this.x - (this.w / 2), y: this.y});
+                            Crafty.audio.play('explosion');
+                            pontos += 1;
+
+                            if (pontos === 15) {
+                                Crafty.audio.play('luck');
+                            }
+
+                            pontosDisplay.innerHTML = pontos;
+                            this.destroy();
+                        }
+
+                    })
+                    .delay(function () {
+
+                        this.x -= speed;
+
+                        if (this.x < 0) {
+
+                            this.destroy();
+
+                        }
+
+                    }, 100, -1);
+
             }
         });
 
@@ -117,7 +163,7 @@ Crafty.load(assetsObj, // preload assets
         }, 22000);
 
         var player = Crafty.e('2D, Canvas, Fourway, SpriteAnimation, Player, Collision, Delay')
-            .attr({x: 0, y: 0, w: 60, h: 50, life: 20})
+            .attr({x: 0, y: 0, w: 60, h: 50, life: 2000})
             .fourway(200)
             .reel('Wait', 500, 3, 0, 4) // setup animation
             .reel('Move', 500, 0, 0, 2) // setup animation
@@ -137,13 +183,13 @@ Crafty.load(assetsObj, // preload assets
                 if (this.life <= 0) {
 
                     Crafty.e('Explode').attr({x: this.x - (this.w / 2), y: this.y});
-                    Crafty.audio.play('explosion');                    
+                    Crafty.audio.play('explosion');
                     this.destroy();
-                    
+
                 }
 
             })
-            .delay(function(){
+            .delay(function () {
                 Crafty.e('BulletPlayer').attr({x: this.x + 60, y: this.y + 16, w: 10, h: 3});
             }, 200, -1);
 
@@ -153,41 +199,13 @@ Crafty.load(assetsObj, // preload assets
         }
 
         setInterval(function () {
-
-            var sprite = getRandomInt(0, 2);
-            var speed = getRandomInt(5, 10);
-            var y = getRandomInt(0, 500);
-
-            Crafty.e('2D, Canvas, Delay, Collision, SpriteAnimation, Asteroide')
-                .attr({x: 501, y: y, w: 50, h: 50, life: 4})
-                .reel('Turning', 500, 0, sprite, 5) // setup animation
-                .animate('Turning', -1) // start animation
-                .onHit('Bullet', function () {
-
-                    this.life -= 1;
-
-                    if (this.life <= 0) {
-
-                        Crafty.e('Explode').attr({x: this.x - (this.w / 2), y: this.y});
-                        Crafty.audio.play('explosion');
-                        pontos += 1;
-                        pontosDisplay.innerHTML = pontos;
-                        this.destroy();
-                    }
-
-                })
-                .delay(function () {
-
-                    this.x -= speed;
-
-                    if (this.x < 0) {
-
-                        this.destroy();
-
-                    }
-
-                }, 100, -1);
-
+            
+            var quantidade = getRandomInt(0, 10);
+            
+            for(var x = 0; x < 2; x++) {
+                Crafty.e('Asteroid');                
+            }
+            
         }, 1000);
 
     },
