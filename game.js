@@ -4,11 +4,9 @@ var pontosDisplay = window.document.getElementById('pontos');
 var pontos = 0;
 
 var assetsObj = {
-//    "audio": {
-//        "beep": ["beep.wav", "beep.mp3", "beep.ogg"],
-//        "boop": "boop.wav",
-//        "slash": "slash.wav"
-//    },
+    'audio': {
+        'explosion' : ['explosion.ogg']
+    },
 //    "images": ["badguy.bmp", "goodguy.png"],
     'sprites': {
         'asteroide.png': {
@@ -151,6 +149,7 @@ Crafty.load(assetsObj, // preload assets
 
                     if (this.life <= 0) {
                         
+                        Crafty.audio.play('explosion');
                         Crafty.e('Explode').attr({x: this.x - (this.w / 2), y: this.y});
                         pontos += 1;
                         pontosDisplay.innerHTML = pontos;
