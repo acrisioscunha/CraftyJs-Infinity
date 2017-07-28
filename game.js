@@ -9,7 +9,8 @@ var pontos = 0;
 var assetsObj = {
     'audio': {
         'explosion': ['explosion.ogg'],
-        'luck': ['luck.mp3']
+        'luck': ['luck.mp3'],
+        'bg': ['bg.mp3']
     },
 //    "images": ["badguy.bmp", "goodguy.png"],
     'sprites': {
@@ -43,6 +44,9 @@ var assetsObj = {
 Crafty.load(assetsObj, // preload assets
     function () { //when loaded
 
+
+        Crafty.audio.play('bg', -1);
+        
         document.getElementById('UP_ARROW').addEventListener('touchstart', function () {                        
             Crafty.trigger('KeyDown', { key: Crafty.keys.UP_ARROW });
         });
