@@ -1,5 +1,7 @@
 Crafty.init(500, 350, document.getElementById('game'));
 
+var loading = window.document.getElementById('loading');
+var viewport = window.document.getElementById('viewport');
 var lifeDisplay = window.document.getElementById('life');
 var pontosDisplay = window.document.getElementById('pontos');
 var pontos = 0;
@@ -40,6 +42,9 @@ var assetsObj = {
 
 Crafty.load(assetsObj, // preload assets
     function () { //when loaded
+        
+        loading.classList.add('displayNone');
+        viewport.classList.remove('displayNone');
 
         Crafty.sprite(32, 'asteroide.png', {
             Asteroide: [0, 0]
