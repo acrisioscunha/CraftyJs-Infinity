@@ -1,6 +1,5 @@
 Crafty.init(500, 350, document.getElementById('game'));
-console.log('adsfasdf');
-alert('adsfasdf');
+
 var loading = window.document.getElementById('loading');
 var viewport = window.document.getElementById('viewport');
 var lifeDisplay = window.document.getElementById('life');
