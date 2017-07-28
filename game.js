@@ -42,7 +42,15 @@ var assetsObj = {
 
 Crafty.load(assetsObj, // preload assets
     function () { //when loaded
-        
+
+        document.getElementById('UP_ARROW').addEventListener('touchstart', function () {                        
+            Crafty.trigger('KeyDown', { key: Crafty.keys.UP_ARROW });
+        });
+
+        document.getElementById('UP_ARROW').addEventListener('touchend', function () {            
+            Crafty.trigger('KeyUp', { key: Crafty.keys.UP_ARROW });
+        });
+
         loading.classList.add('displayNone');
         viewport.classList.remove('displayNone');
 
@@ -121,7 +129,7 @@ Crafty.load(assetsObj, // preload assets
             init: function () {
 
                 var sprite = getRandomInt(0, 2);
-                var speed = getRandomInt(5, 20);                
+                var speed = getRandomInt(5, 20);
                 var y = getRandomInt(0, 450);
 
                 this.requires('2D, Canvas, Delay, Collision, SpriteAnimation, Asteroide')
@@ -204,13 +212,13 @@ Crafty.load(assetsObj, // preload assets
         }
 
         setInterval(function () {
-            
+
             var quantidade = getRandomInt(0, 10);
-            
-            for(var x = 0; x < 2; x++) {
-                Crafty.e('Asteroid');                
+
+            for (var x = 0; x < 2; x++) {
+                Crafty.e('Asteroid');
             }
-            
+
         }, 1000);
 
     },
